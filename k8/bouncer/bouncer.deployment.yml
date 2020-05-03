@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bouncer
+spec:
+  selector:
+    matchLabels:
+      app: bouncer
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bouncer
+    spec:
+      hostAliases:
+        - ip: "192.168.2.103"
+          hostnames:
+            - "host.private"
+      containers:
+        - name: bouncer
+          image: "retaily/bouncer:0.0.1"
+          ports:
+            - containerPort: 8085
+          imagePullPolicy: Never
+      serviceAccountName: basic-account
