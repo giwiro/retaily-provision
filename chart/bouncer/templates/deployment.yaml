@@ -27,6 +27,11 @@ spec:
       serviceAccountName: {{ include "bouncer.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -35,14 +40,13 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8085
-              protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /bouncer/version
               port: 8085
           readinessProbe:
             httpGet:
-              path: /
+              path: /bouncer/version
               port: 8085
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

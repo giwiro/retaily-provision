@@ -37,8 +37,9 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
+  targetPort: 8085
 
 ingress:
   enabled: false
@@ -82,3 +83,8 @@ affinity: {}
 host:
   ip:
     - private: 192.168.2.102
+
+hostAliases:
+  - ip: "192.168.2.102"
+    hostnames:
+      - "host.private"

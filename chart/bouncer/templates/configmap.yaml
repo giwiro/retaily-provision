@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "bouncer.fullname" . }}-config
+  name: {{ include "bouncer.name" . }}
 data:
   spring.datasource.url: "jdbc:postgresql://host.private:5432/bouncer"
   spring.datasource.username: bouncer_admin
