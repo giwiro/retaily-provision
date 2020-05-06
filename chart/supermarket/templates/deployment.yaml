@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "bouncer.fullname" . }}
+  name: {{ include "supermarket.fullname" . }}
   labels:
-    {{- include "bouncer.labels" . | nindent 4 }}
+    {{- include "supermarket.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "bouncer.selectorLabels" . | nindent 6 }}
+      {{- include "supermarket.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "bouncer.selectorLabels" . | nindent 8 }}
+        {{- include "supermarket.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "bouncer.serviceAccountName" . }}
+      serviceAccountName: {{ include "supermarket.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- with .Values.hostAliases }}
@@ -39,15 +39,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.targetPort }}
+              - containerPort: {{ .Values.service.targetPort }}
           livenessProbe:
             httpGet:
-              path: /bouncer/version
+              path: /supermarket/version
               port: {{ .Values.service.targetPort }}
             initialDelaySeconds: 40
           readinessProbe:
             httpGet:
-              path: /bouncer/version
+              path: /supermarket/version
               port: {{ .Values.service.targetPort }}
             initialDelaySeconds: 40
           resources:
