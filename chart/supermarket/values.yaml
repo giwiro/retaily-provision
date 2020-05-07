@@ -79,12 +79,8 @@ tolerations: []
 
 affinity: {}
 
-# Private ip of host node
-host:
-  ip:
-    - private: 192.168.2.102
-
 hostAliases:
+# Private ip of host node
   - ip: "192.168.2.102"
     hostnames:
       - "host.private"

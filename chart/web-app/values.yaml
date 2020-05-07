@@ -1,11 +1,11 @@
-# Default values for bouncer.
+# Default values for web-app.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 2
 
 image:
-  repository: retaily/bouncer
+  repository: retaily/web-app
   pullPolicy: Never
   # Overrides the image tag whose default is the chart version.
   tag: "latest"
@@ -39,7 +39,7 @@ securityContext: {}
 service:
   type: LoadBalancer
   port: 80
-  targetPort: 8085
+  targetPort: 80
 
 ingress:
   enabled: false
@@ -69,9 +69,9 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 
